@@ -7,4 +7,5 @@ router.use('/api/users', user )
 router.use('/api/cities', city )
 router.use('/api/itineraries', itinerary )
 
+
 module.exports = router;
