@@ -7,7 +7,7 @@ let hotels = [
             "https://ak-d.tripcdn.com/images/220d180000014xcfe2062_R_800_525.jpg"
         ],
         capacity: 1855,
-        cityId: "636e9b1f37a6690656b36eba",
+        cityId: "636e9b1f37a6690656b36eba", 
         userId: "636e67769d2ec6759994acc1"
     },
     {
@@ -29,7 +29,7 @@ let hotels = [
             "https://images.squarespace-cdn.com/content/v1/53e1e525e4b091ac3336f302/1410423105705-YT7B849V1TEQR4YM0HHB/Picture1.jpg?format=1500w"
         ],
         capacity: 1200,
-        cityId: "636e9b1f37a6690656b36ec0",
+        cityId: "636e9b1f37a6690656b36ec0", 
         userId: "636e67769d2ec6759994acc1"
     },
     {
