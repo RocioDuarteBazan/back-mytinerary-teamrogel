@@ -9,7 +9,7 @@ const controller = {
                 {
                     id: new_show._id,
                     success: true,
-                    message: 'Show created successfully'
+                    message: 'Show created successfully.'
                 }
             )
         } catch (error) {
