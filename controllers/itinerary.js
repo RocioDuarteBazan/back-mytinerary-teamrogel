@@ -45,6 +45,28 @@ const controller = {
             })
         }
     },
+    update: async(req,res) => {
+        let {id} = req.params
+        try {
+            let itineraries = await Itinerary.findOneAndUpdate({ _id: id }, req.body,{ new: true })
+            if (itineraries) {
+                res.status(200).json({
+                    success: true,
+                    message: "The itinerary was successfully modified"
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "There is no itinerary that matches"
+                })
+            }
+        } catch(error) {
+            res.status(400).json({
+                success: false,
+                message: error.message
+            })
+        }
+    },
 }
 
 module.exports = controller;
