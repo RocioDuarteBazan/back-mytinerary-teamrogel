@@ -95,7 +95,7 @@ let hotels = [
             "https://ak-d.tripcdn.com/images/022181200090korwq790A_R_800_525.jpg"
         ],
         capacity: 800,
-        cityId: "636e9b1f37a6690656b36ebd",
+        cityId: "637186561a9c58ba59c508b9",
         userId: "636e67769d2ec6759994acc0"
     },
     {
