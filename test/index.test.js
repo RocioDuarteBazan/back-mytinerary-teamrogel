@@ -23,3 +23,17 @@ describe('GET /api/cities', function () {
             })
     })
 })
+describe('GET /api/hotels', function () {
+
+    it('check status 404 when the filter does not find a hotel', function (done) {
+        request(app)
+            .get('/api/hotels/637a82b29ffbe50105832948')
+            .expect(404)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                done()
+            })
+    })
+})
