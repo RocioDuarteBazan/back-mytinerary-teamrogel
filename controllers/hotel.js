@@ -9,7 +9,8 @@ const controller = {
                 {
                     id: new_hotel._id,
                     success: true,
-                    message: 'Hotel created successfully'
+                    message: 'Hotel created successfully',
+                    data: new_hotel
                 }
             )
         } catch (error) {

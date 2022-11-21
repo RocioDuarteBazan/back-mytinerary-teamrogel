@@ -23,20 +23,6 @@ describe('GET /api/cities', function () {
             })
     })
 })
-describe('GET /api/hotels', function () {
-
-    it('check status 404 when the filter does not find a hotel', function (done) {
-        request(app)
-            .get('/api/hotels/637a82b29ffbe50105832948')
-            .expect(404)
-            .end(function (err, res) {
-                if (err) {
-                    return done(err)
-                }
-                done()
-            })
-    })
-})
 describe('POST /api/cities', function () {
 
     it('check that the user sends a string in the name field', function (done) {
@@ -70,7 +56,7 @@ describe('POST /api/hotels', function () {
                     cityId: "",
                     userId: "636e7868b2e"
             })
-            .expect(400)
+            .expect(res => res.success === false)
             .end(function (err, res) {
                 if (err) {
                     return done(err)
