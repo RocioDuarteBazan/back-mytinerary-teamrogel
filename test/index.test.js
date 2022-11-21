@@ -37,3 +37,45 @@ describe('GET /api/hotels', function () {
             })
     })
 })
+describe('POST /api/cities', function () {
+
+    it('check that the user sends a string in the name field', function (done) {
+        request(app)
+            .post('/api/cities')
+            .send({
+                name: "New York TEST",
+                continent: "America",
+                photo: "https://imageshack.com/i/pmk1kK0tj",
+                population: 8.468, 
+                userId: "636e67769d2ec6759994acc1"
+            })
+            .expect(res =>{
+                assert.isString(res.body.data.name, "Name is a string")
+            })
+            .end(function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                done()
+            })
+    })
+})
+describe('POST /api/hotels', function () {
+
+    it('check 400 status when filter does not create a hotel', function (done) {
+        request(app)
+            .post('/api/hotels')
+            .send({
+                    name: "Hotel Warwick Geneva TEST",
+                    cityId: "",
+                    userId: "636e7868b2e"
+            })
+            .expect(400)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                done()
+            })
+    })
+})
