@@ -30,13 +30,9 @@ const schema = joi.object({
             'string.uri': 'A valid url is requested'
         }),
     population: joi.number()
-        .min(2)
-        .max(50)
         .messages({
             'any.required': 'Population is required',
-            'number.empty': 'Population is required',
-            'number.min': 'A minimum of 20 characters is requested',
-            'number.max': 'A maximum of 50 characters is requested',    
+            'number.empty': 'Population is required',  
         }),
     userId: joi.string()
         .required()
