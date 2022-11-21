@@ -4,7 +4,7 @@ const assert = chai.assert
 const request = require('supertest')
 
 
-describe('GET /api/cities', function () {
+describe('cities', function () {
 
     it('verify that it is an array of cities', function (done) {
         request(app)
@@ -23,7 +23,7 @@ describe('GET /api/cities', function () {
             })
     })
 })
-describe('POST /api/cities', function () {
+describe('cities', function () {
 
     it('check that the user sends a string in the name field', function (done) {
         request(app)
@@ -46,22 +46,18 @@ describe('POST /api/cities', function () {
             })
     })
 })
-describe('POST /api/hotels', function () {
+describe('cities', function () {
 
-    it('check 400 status when filter does not create a hotel', function (done) {
+    it('Verify that it returns success false when unable to create a hotel', function (done) {
         request(app)
-            .post('/api/hotels')
+            .post(`/api/cities/`)
             .send({
-                    name: "Hotel Warwick Geneva TEST",
-                    cityId: "",
-                    userId: "636e7868b2e"
+                population: 565565,
             })
             .expect(res => res.success === false)
             .end(function (err, res) {
-                if (err) {
-                    return done(err)
-                }
-                done()
-            })
+                if (err) return done(err);
+                done();
+            });
     })
 })
