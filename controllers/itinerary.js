@@ -7,8 +7,13 @@ const controller = {
         if (req.query.citiId) {
             query = { citiId: req.query.citiId };
         }
+        if (req.query.userId) {
+            query = {
+                userId: req.query.userId
+            };
+        }
         try {
-            let itineraries = await Itinerary.find(query);
+            let itineraries = await Itinerary.find(query).populate({path: 'userId', select:'role -_id'});
             if (itineraries) {
                 res.status(200).json({
                     success: true,
@@ -45,10 +50,10 @@ const controller = {
             })
         }
     },
-    update: async(req,res) => {
-        let {id} = req.params
+    update: async (req, res) => {
+        let { id } = req.params
         try {
-            let itineraries = await Itinerary.findOneAndUpdate({ _id: id }, req.body,{ new: true })
+            let itineraries = await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (itineraries) {
                 res.status(200).json({
                     success: true,
@@ -60,17 +65,17 @@ const controller = {
                     message: "There is no itinerary that matches"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
             })
         }
     },
-    destroy: async(req,res) => { 
-        let {id} = req.params
+    destroy: async (req, res) => {
+        let { id } = req.params
         try {
-            let itinerary = await Itinerary.findOneAndDelete({_id: id})
+            let itinerary = await Itinerary.findOneAndDelete({ _id: id })
             if (itinerary) {
                 res.status(200).json({
                     success: true,
@@ -82,7 +87,7 @@ const controller = {
                     message: "There are no matching itinenary"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
