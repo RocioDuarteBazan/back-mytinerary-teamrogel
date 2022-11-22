@@ -3,14 +3,14 @@ const City = require('../models/City');
 const controller = {
 
     create: async (req, res) => {
-        try {         
+        try {
             let new_city = await City.create(req.body);
             res.status(201).json(
                 {
-                id:new_city._id,
-                data: new_city,
-                success: true,
-                message: 'City created successfully'
+                    id: new_city._id,
+                    data: new_city,
+                    success: true,
+                    message: 'City created successfully'
                 }
             )
         } catch (error) {
@@ -23,21 +23,25 @@ const controller = {
     read: async (req, res) => {
         let query = {}
         if (req.query.continent) {
-            query = {continent: req.query.continent}
-        }if (req.query.name){
+            query = { continent: req.query.continent }
+        } 
+        if (req.query.userId) {
+            query = { userId: req.query.userId };
+        } 
+        if (req.query.name) {
             query = {
                 ...query,
-                name:{$regex: req.query.name, $options:'i'}
+                name: { $regex: req.query.name, $options: 'i' }
             }
         }
-        try {         
-            let get_city = await City.find(query);
+        try {
+            let get_city = await City.find(query).populate({path:'userId', select:'role -_id'});;
             res.status(200).json(
                 {
-                id: get_city._id,
-                data: get_city,
-                success: true,
-                message: 'City read successfully'
+                    id: get_city._id,
+                    data: get_city,
+                    success: true,
+                    message: 'City read successfully'
                 }
             )
         } catch (error) {
@@ -47,10 +51,10 @@ const controller = {
             })
         }
     },
-    readOnlyOne: async(req,res) => {
+    readOnlyOne: async (req, res) => {
         let id = req.params.id;
         try {
-            let city = await City.findOne({ _id: id }).populate({ path: 'userId', select: 'name photo -_id'});
+            let city = await City.findOne({ _id: id }).populate({ path: 'userId', select: 'name photo -_id' });
             if (city) {
                 res.status(200).json({
                     response: city,
@@ -62,18 +66,18 @@ const controller = {
                     success: false,
                     message: "No city obtained"
                 })
-            }            
-        } catch(error) {
+            }
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
             })
-        }        
+        }
     },
-    update: async(req,res) => {
-        let {id} = req.params
+    update: async (req, res) => {
+        let { id } = req.params
         try {
-            let city = await City.findOneAndUpdate({ _id: id }, req.body,{ new: true })
+            let city = await City.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (city) {
                 res.status(200).json({
                     success: true,
@@ -85,17 +89,17 @@ const controller = {
                     message: "There is no city that matches"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
             })
         }
     },
-    destroy: async(req,res) => { 
-        let {id} = req.params
+    destroy: async (req, res) => {
+        let { id } = req.params
         try {
-            let city = await City.findOneAndDelete({_id: id})
+            let city = await City.findOneAndDelete({ _id: id })
             if (city) {
                 res.status(200).json({
                     success: true,
@@ -107,7 +111,7 @@ const controller = {
                     message: "There are no matching cities"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
