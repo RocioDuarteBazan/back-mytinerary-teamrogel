@@ -24,10 +24,10 @@ const controller = {
         let query = {}
         if (req.query.continent) {
             query = { continent: req.query.continent }
-        } 
+        }
         if (req.query.userId) {
             query = { userId: req.query.userId };
-        } 
+        }
         if (req.query.name) {
             query = {
                 ...query,
@@ -35,15 +35,23 @@ const controller = {
             }
         }
         try {
-            let get_city = await City.find(query).populate({path:'userId', select:'role -_id'});;
-            res.status(200).json(
-                {
-                    id: get_city._id,
-                    data: get_city,
-                    success: true,
-                    message: 'City read successfully'
-                }
-            )
+            let get_city = await City.find(query).populate({ path: 'userId', select: 'role -_id' });
+            if (get_city.length > 0) {
+                res.status(200).json(
+                    {
+                        id: get_city._id,
+                        data: get_city,
+                        success: true,
+                        message: 'City read successfully'
+                    }
+                )
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "City no found",
+                    data: []
+                })
+            }
         } catch (error) {
             res.status(400).json({
                 success: false,
@@ -81,7 +89,8 @@ const controller = {
             if (city) {
                 res.status(200).json({
                     success: true,
-                    message: "The city was successfully modified"
+                    message: "The city was successfully modified",
+                    data: city
                 })
             } else {
                 res.status(404).json({
@@ -103,7 +112,8 @@ const controller = {
             if (city) {
                 res.status(200).json({
                     success: true,
-                    message: "The city is removed"
+                    message: "The city is removed",
+                    data: city
                 })
             } else {
                 res.status(404).json({
