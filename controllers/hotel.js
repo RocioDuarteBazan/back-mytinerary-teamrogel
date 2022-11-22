@@ -29,16 +29,29 @@ const controller = {
         if (req.query.order) {
             order = { capacity: req.query.order }
         }
+        if (req.query.userId) {
+            query = { userId: req.query.userId }
+        }
+
         try {
             let get_hotel = await Hotel.find(query).sort(order)
-            res.status(200).json(
-                {
-                    id: get_hotel._id,
-                    data: get_hotel,
-                    success: true,
-                    message: 'Hotel read successfully'
-                }
-            )
+            if (get_hotel.length > 0) {
+                res.status(200).json(
+                    {
+                        id: get_hotel._id,
+                        data: get_hotel,
+                        success: true,
+                        message: 'Hotel read successfully'
+                    }
+                )
+            }
+            else {
+                res.status(404).json({
+                    response: [],
+                    success: false,
+                    message: "hotels not found"
+                })
+            }
         } catch (error) {
             res.status(400).json({
                 success: false,
@@ -69,10 +82,10 @@ const controller = {
             })
         }
     },
-    update: async(req,res) => {
+    update: async (req, res) => {
         let { id } = req.params
         try {
-            let hotel = await Hotel.findOneAndUpdate({ _id: id }, req.body,{ new: true })
+            let hotel = await Hotel.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (hotel) {
                 res.status(200).json({
                     success: true,
@@ -84,14 +97,14 @@ const controller = {
                     message: "There is no hotel that matches"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
             })
         }
     },
-    destroy: async(req,res) => { 
+    destroy: async (req, res) => {
         let { id } = req.params
         try {
             let hotel = await Hotel.findOneAndDelete({ _id: id })
@@ -106,7 +119,7 @@ const controller = {
                     message: "there are no matching hotels"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
