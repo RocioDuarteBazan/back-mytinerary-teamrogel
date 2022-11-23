@@ -56,6 +56,7 @@ const controller = {
             let itineraries = await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (itineraries) {
                 res.status(200).json({
+                    data: itineraries,
                     success: true,
                     message: "The itinerary was successfully modified"
                 })

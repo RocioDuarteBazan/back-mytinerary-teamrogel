@@ -88,6 +88,7 @@ const controller = {
             let hotel = await Hotel.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (hotel) {
                 res.status(200).json({
+                    data:hotel,
                     success: true,
                     message: "The hotel was successfully modified"
                 })
