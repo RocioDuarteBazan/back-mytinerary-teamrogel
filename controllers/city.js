@@ -88,6 +88,7 @@ const controller = {
             let city = await City.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (city) {
                 res.status(200).json({
+                    data:city,
                     success: true,
                     message: "The city was successfully modified",
                     data: city
