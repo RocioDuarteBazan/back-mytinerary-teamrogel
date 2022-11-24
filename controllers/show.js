@@ -25,6 +25,11 @@ const controller = {
         if (req.query.hotelId) {
             query = { hotelId: req.query.hotelId };
         }
+        if (req.query.userId) {
+            query = {
+                userId: req.query.userId
+            };
+        }
         try {
             let shows = await Show.find(query);
             if (shows) {
@@ -52,6 +57,7 @@ const controller = {
             let show = await Show.findOneAndUpdate({ _id: id }, req.body, { new: true })
             if (show) {
                 res.status(200).json({
+                    data: show,
                     success: true,
                     message: "The show was successfully modified"
                 })
@@ -68,10 +74,10 @@ const controller = {
             })
         }
     },
-    destroy: async(req,res) => { 
-        let {id} = req.params
+    destroy: async (req, res) => {
+        let { id } = req.params
         try {
-            let show = await Show.findOneAndDelete({_id: id})
+            let show = await Show.findOneAndDelete({ _id: id })
             if (show) {
                 res.status(200).json({
                     success: true,
@@ -83,7 +89,7 @@ const controller = {
                     message: "There are no matching shows"
                 })
             }
-        } catch(error) {
+        } catch (error) {
             res.status(400).json({
                 success: false,
                 message: error.message
