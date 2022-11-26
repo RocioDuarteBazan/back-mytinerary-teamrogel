@@ -10,7 +10,7 @@ let {create, userVerification, logIn, loginWithToken} = require ('../controllers
 const passport =  require('../config/passport');
 
 
-router.post('/signup', validator(schema), accountExists, create);
+router.post('/sign-up', validator(schema), accountExists, create);
 router.get('/verify/:code', userVerification);
 router.post('/sign-in', validator(schemaSingIn), accountExistsSingIn, accountHasBeenVerified, logIn);
 router.post('/token', passport.authenticate('jwt', {session: false}), haveSignIn, loginWithToken)
