@@ -49,7 +49,8 @@ const controller = {
                 res.status(404).json({
                     response: [],
                     success: false,
-                    message: "hotels not found"
+                    message: "hotels not found",
+                    data: []
                 })
             }
         } catch (error) {
