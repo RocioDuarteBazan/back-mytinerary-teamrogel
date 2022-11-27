@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcryptjs = require('bcryptjs')
 const crypto = require('crypto')
 const accountVerificationEmail = require('../middlewares/accountVerificationEmail')
-const { userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse } = require('../config/responses')
+const { userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse, userSignedOutResponse } = require('../config/responses')
 const jwt = require('jsonwebtoken')
 
 
@@ -82,7 +82,16 @@ const controller = {
         } catch (error) {
             next(error)
         }
-    }
+    },
+    signoff: async (req, res,next) => {
+        let { email } = req.user;
+        try{
+            await User.findOneAndUpdate({ email }, {logged: false}, {new: true})
+            return userSignedOutResponse (req,res)
+        }catch(error){
+            next(error)
+        }
+    } 
 }
 
 
