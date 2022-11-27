@@ -56,6 +56,7 @@ const controller = {
                     name: user.name,
                     email: user.email,
                     photo: user.photo,
+                    role: user.role,
                 }
                 return res.status(200).json({
                     response: { user, token },
