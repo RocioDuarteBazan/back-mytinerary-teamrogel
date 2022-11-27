@@ -6,7 +6,7 @@ const {accountExists} = require ('../middlewares/accountExistsSignUp');
 const accountExistsSingIn = require ('../middlewares/accountExistsSignIn');
 const {accountHasBeenVerified} = require ('../middlewares/accountHasBeenVerified');
 const haveSignIn = require ('../middlewares/haveSignIn');
-let {create, userVerification, logIn, loginWithToken, signoff } = require ('../controllers/user');
+let {create, userVerification, logIn, loginWithToken, signoff , readOne, update} = require ('../controllers/user');
 const passport =  require('../config/passport');
 
 
@@ -17,5 +17,8 @@ router.post('/sign-out', passport.authenticate('jwt', { session:false }), signof
 router.get('/verify/:code', userVerification);
 router.post('/token', passport.authenticate('jwt', { session: false }), haveSignIn, loginWithToken);
 
+
+router.patch('/me/:id', readOne);
+router.get('/me/:id', update);
 
 module.exports = router;

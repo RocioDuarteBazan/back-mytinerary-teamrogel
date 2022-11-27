@@ -84,15 +84,64 @@ const controller = {
             next(error)
         }
     },
-    signoff: async (req, res,next) => {
+    signoff: async (req, res, next) => {
         let { email } = req.user;
-        try{
-            await User.findOneAndUpdate({ email }, {logged: false}, {new: true})
-            return userSignedOutResponse (req,res)
-        }catch(error){
+        try {
+            await User.findOneAndUpdate({ email }, { logged: false }, { new: true })
+            return userSignedOutResponse(req, res)
+        } catch (error) {
             next(error)
         }
-    } 
+    },
+    readOne: async (req, res, next) => {
+        let id = req.params.id;
+        try {
+            let user = await User.findById({ _id: id })
+            if (user) {
+                res.status(200).json({
+                    success: true,
+                    message: 'the user was found successfully!.',
+                    data: user,
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: 'the user was not found.',
+                })
+            }
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    update: async (req, res, next) => {
+        let id = req.params.id;
+        if (req.body.password) {
+            let { password } = req.body;
+            password = bcryptjs.hashSync(password, 10);
+            req.body.password = password;
+        }
+
+
+        try {
+            let user = await User.findOneAndUpdate({ _id: id }, req.body, { new: true });
+
+            if (user) {
+                res.status(200).json({
+                    success: true,
+                    message: "The user was successfully modified!",
+                    data: user,
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "The user was not found",
+                });
+            }
+        } catch (error) {
+            next(error)
+        }
+    },
 }
 
 
