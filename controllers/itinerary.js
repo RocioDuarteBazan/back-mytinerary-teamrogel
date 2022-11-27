@@ -39,6 +39,7 @@ const controller = {
             res.status(201).json(
                 {
                     id: new_itinerary._id,
+                    data: new_itinerary,
                     success: true,
                     message: 'Itinerary created successfully'
                 }
@@ -58,7 +59,8 @@ const controller = {
                 res.status(200).json({
                     data: itineraries,
                     success: true,
-                    message: "The itinerary was successfully modified"
+                    message: "The itinerary was successfully modified",
+                    data: itineraries
                 })
             } else {
                 res.status(404).json({
@@ -80,7 +82,8 @@ const controller = {
             if (itinerary) {
                 res.status(200).json({
                     success: true,
-                    message: "The itinerary is removed"
+                    message: "The itinerary is removed",
+                    data: itinerary
                 })
             } else {
                 res.status(404).json({
