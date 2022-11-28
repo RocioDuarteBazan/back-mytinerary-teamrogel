@@ -3,8 +3,8 @@ let {readItineraries, create, update, destroy} = require ('../controllers/itiner
 const passport =  require('../config/passport');
 const Itinerary = require ('../models/Itinerary')
 
-const validator = require ("../middlewares/validator")
 const schema = require ("../schema/itinerary")
+const validator = require ("../middlewares/validator")
 
 router.get('/', readItineraries)
 router.post('/',passport.authenticate('jwt', { session:false }), validator (schema) , create)
