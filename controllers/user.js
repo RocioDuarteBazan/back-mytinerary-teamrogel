@@ -57,6 +57,7 @@ const controller = {
                     email: user.email,
                     photo: user.photo,
                     role: user.role,
+                    id: user.id
                 }
                 return res.status(200).json({
                     response: { user, token },
@@ -116,11 +117,11 @@ const controller = {
 
     update: async (req, res, next) => {
         let id = req.params.id;
-        if (req.body.password) {
+        /* if (req.body.password) {
             let { password } = req.body;
             password = bcryptjs.hashSync(password, 10);
             req.body.password = password;
-        }
+        } */
 
 
         try {
