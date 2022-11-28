@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let {create , read , readOnlyOne, update, destroy} = require ('../controllers/city');
+const passport =  require('../config/passport');
 
 const validator = require ("../middlewares/validator")
 const schema = require ("../schema/city")

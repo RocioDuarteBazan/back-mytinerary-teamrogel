@@ -61,9 +61,11 @@ describe('cities', function () {
             });
     })
     it('The city was removed', function (done) {
-        let citiId = "637fc0ff7b16a5ef4a048868"
+        token = ""
+        let citiId = "638483911baea18270017833"
         request(app)
             .delete(`/api/cities/${citiId}`)
+            .auth(token, { type: "bearer" })
             .expect(200 )
             .end(function (err, res) {
                 if (err) return done(err);

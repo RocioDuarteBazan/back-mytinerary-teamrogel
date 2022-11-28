@@ -85,17 +85,25 @@ const controller = {
     destroy: async (req, res) => {
         let { id } = req.params
         try {
-            let show = await Show.findOneAndDelete({ _id: id })
-            if (show) {
-                res.status(200).json({
-                    success: true,
-                    message: "The show is removed"
-                })
+            let showUser = await Show.findById(id)
+            if (showUser.userId.equals(req.user.id)) {
+                let show = await Show.findOneAndDelete({ _id: id })
+                if (show) {
+                    res.status(200).json({
+                        success: true,
+                        message: "The show is removed"
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: "There are no matching shows"
+                    })
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "There are no matching shows"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
