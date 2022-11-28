@@ -52,26 +52,34 @@ const controller = {
         }
     },
     update: async (req, res) => {
-        let { id } = req.params
+        let { id } = req.params;
         try {
-            let show = await Show.findOneAndUpdate({ _id: id }, req.body, { new: true })
-            if (show) {
-                res.status(200).json({
-                    data: show,
-                    success: true,
-                    message: "The show was successfully modified"
-                })
+            let showUser = await Show.findById(id)
+            if (showUser.userId.equals(req.user.id)) {
+                let show = await Show.findOneAndUpdate({ _id: id }, req.body, { new: true });
+                if (show) {
+                    res.status(200).json({
+                        success: true,
+                        message: 'Show updated successfully',
+                        data: show,
+                    });
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: 'Show not found',
+                    });
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "There is no show that matches"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
                 success: false,
-                message: error.message
-            })
+                message: error.message,
+            });
         }
     },
     destroy: async (req, res) => {
