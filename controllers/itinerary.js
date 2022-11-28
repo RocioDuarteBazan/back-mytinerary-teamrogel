@@ -13,7 +13,7 @@ const controller = {
             };
         }
         try {
-            let itineraries = await Itinerary.find(query).populate({path: 'userId', select:'role -_id'});
+            let itineraries = await Itinerary.find(query).populate({ path: 'userId', select: 'role -_id' });
             if (itineraries) {
                 res.status(200).json({
                     success: true,
@@ -52,52 +52,67 @@ const controller = {
         }
     },
     update: async (req, res) => {
-        let { id } = req.params
+        let { id } = req.params;
         try {
-            let itineraries = await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true })
-            if (itineraries) {
-                res.status(200).json({
-                    data: itineraries,
-                    success: true,
-                    message: "The itinerary was successfully modified",
-                    data: itineraries
-                })
+            let itineraryUser = await Itinerary.findById(id)
+            if (itineraryUser.userId.equals(req.user.id)) {
+                let itinerary = await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true });
+                if (itinerary) {
+                    res.status(200).json({
+                        success: true,
+                        message: 'Itinerary updated successfully',
+                        data: itinerary,
+                    });
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: 'Itinerary not found',
+                    });
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "There is no itinerary that matches"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
                 success: false,
-                message: error.message
-            })
+                message: error.message,
+            });
         }
     },
     destroy: async (req, res) => {
-        let { id } = req.params
+        let { id } = req.params;
         try {
-            let itinerary = await Itinerary.findOneAndDelete({ _id: id })
-            if (itinerary) {
-                res.status(200).json({
-                    success: true,
-                    message: "The itinerary is removed",
-                    data: itinerary
-                })
+            let itineraryUser = await Itinerary.findById(id)
+            if (itineraryUser.userId.equals(req.user.id)) {
+                let itinerary = await Itinerary.findOneAndDelete({ _id: id });
+                if (itinerary) {
+                    res.status(200).json({
+                        success: true,
+                        message: 'Itinerary deleted successfully',
+                        data: itinerary,
+                    });
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: 'Itinerary not found',
+                    });
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "There are no matching itinenary"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
                 success: false,
-                message: error.message
-            })
+                message: error.message,
+            });
         }
-    }
+    },
 }
 
 module.exports = controller;
