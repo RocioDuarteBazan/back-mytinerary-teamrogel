@@ -53,6 +53,7 @@ const controller = {
 
                 )
                 user = {
+                    id: user.id,
                     name: user.name,
                     email: user.email,
                     photo: user.photo,
