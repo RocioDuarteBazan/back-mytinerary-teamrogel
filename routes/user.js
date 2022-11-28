@@ -18,7 +18,7 @@ router.get('/verify/:code', userVerification);
 router.post('/token', passport.authenticate('jwt', { session: false }), haveSignIn, loginWithToken);
 
 
-router.get('/me/:id', readOne);
 router.patch('/me/:id', update);
+router.get('/me/:id', readOne);
 
 module.exports = router;
