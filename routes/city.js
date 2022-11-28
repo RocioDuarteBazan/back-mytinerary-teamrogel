@@ -7,7 +7,7 @@ const schema = require ("../schema/city")
 router.post('/',validator (schema), create)
 router.get('/', read)
 router.get('/:id', readOnlyOne)
-router.put('/:id', update)
-router.delete('/:id', destroy)
+router.put('/:id', passport.authenticate('jwt', { session:false }), update)
+router.delete('/:id',  passport.authenticate('jwt', { session:false }), destroy)
 
 module.exports = router;

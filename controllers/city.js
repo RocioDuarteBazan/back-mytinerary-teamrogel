@@ -85,19 +85,27 @@ const controller = {
     update: async (req, res) => {
         let { id } = req.params
         try {
-            let city = await City.findOneAndUpdate({ _id: id }, req.body, { new: true })
-            if (city) {
-                res.status(200).json({
-                    data:city,
-                    success: true,
-                    message: "The city was successfully modified",
-                    data: city
-                })
+            let cityUser = await City.findById(id)
+            if (cityUser.userId.equals(req.user.id)) {
+                let city = await City.findOneAndUpdate({ _id: id }, req.body, { new: true })
+                if (city) {
+                    res.status(200).json({
+                        data: city,
+                        success: true,
+                        message: "The city was successfully modified",
+                        data: city
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: "There is no city that matches"
+                    })
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "There is no city that matches"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
@@ -109,18 +117,26 @@ const controller = {
     destroy: async (req, res) => {
         let { id } = req.params
         try {
-            let city = await City.findOneAndDelete({ _id: id })
-            if (city) {
-                res.status(200).json({
-                    success: true,
-                    message: "The city is removed",
-                    data: city
-                })
-            } else {
-                res.status(404).json({
+            let cityUser = await City.findById(id)
+            if (cityUser.userId.equals(req.user.id)) {
+                let city = await City.findOneAndDelete({ _id: id })
+                if (city) {
+                    res.status(200).json({
+                        success: true,
+                        message: "The city is removed",
+                        data: city
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: "There are no matching cities"
+                    })
+                }
+            }else {
+                res.status(401).json({
                     success: false,
-                    message: "There are no matching cities"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
