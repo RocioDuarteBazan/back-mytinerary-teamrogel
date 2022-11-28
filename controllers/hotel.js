@@ -86,18 +86,26 @@ const controller = {
     update: async (req, res) => {
         let { id } = req.params
         try {
-            let hotel = await Hotel.findOneAndUpdate({ _id: id }, req.body, { new: true })
-            if (hotel) {
-                res.status(200).json({
-                    data:hotel,
-                    success: true,
-                    message: "The hotel was successfully modified"
-                })
+            let hotelUser = await Show.findById(id)
+            if (hotelUser.userId.equals(req.user.id)) {
+                let hotel = await Hotel.findOneAndUpdate({ _id: id }, req.body, { new: true })
+                if (hotel) {
+                    res.status(200).json({
+                        data: hotel,
+                        success: true,
+                        message: "The hotel was successfully modified"
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: "There is no hotel that matches"
+                    })
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "There is no hotel that matches"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
@@ -109,17 +117,25 @@ const controller = {
     destroy: async (req, res) => {
         let { id } = req.params
         try {
-            let hotel = await Hotel.findOneAndDelete({ _id: id })
-            if (hotel) {
-                res.status(200).json({
-                    success: true,
-                    message: "the hotel is removed"
-                })
+            let hotelUser = await Show.findById(id)
+            if (hotelUser.userId.equals(req.user.id)) {
+                let hotel = await Hotel.findOneAndDelete({ _id: id })
+                if (hotel) {
+                    res.status(200).json({
+                        success: true,
+                        message: "the hotel is removed"
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: "there are no matching hotels"
+                    })
+                }
             } else {
-                res.status(404).json({
+                res.status(401).json({
                     success: false,
-                    message: "there are no matching hotels"
-                })
+                    message: 'Unauthorized',
+                });
             }
         } catch (error) {
             res.status(400).json({
