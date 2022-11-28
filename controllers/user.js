@@ -123,7 +123,6 @@ const controller = {
             req.body.password = password;
         }
 
-
         try {
             let user = await User.findOneAndUpdate({ _id: id }, req.body, { new: true });
 
