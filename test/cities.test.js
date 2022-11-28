@@ -60,4 +60,14 @@ describe('cities', function () {
                 done();
             });
     })
+    it('The city was removed', function (done) {
+        let citiId = "637fc0ff7b16a5ef4a048868"
+        request(app)
+            .delete(`/api/cities/${citiId}`)
+            .expect(200 )
+            .end(function (err, res) {
+                if (err) return done(err);
+                done()
+            })
+    })
 })
