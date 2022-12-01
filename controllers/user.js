@@ -49,7 +49,7 @@ const controller = {
                 let token = jwt.sign(
                     { id: user.id },
                     process.env.KEY_JWT,
-                    { expiresIn: 60 * 60 * 24 }
+                    { expiresIn: 60 * 60 * 365 }
 
                 )
                 user = {
