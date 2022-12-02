@@ -30,11 +30,9 @@ const controller = {
         }
         try {
             let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' })
-            if (reactions.length > 0) {
-                let lengthOfReactions = {}
-                reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)
+            if (reactions.length > 0) {            
                 res.status(200).json({
-                    lengthOfReactions,
+                    response: reactions,
                     id: req.query.itineraryId,
                     data: reactions,
                     success: true,
@@ -72,15 +70,15 @@ const controller = {
         try {
             let reaction = await Reaction.findOne(query)
             if (reaction) {
-                if (reaction.userId.equals(Id)) {
-                    await Reaction.findOneAndUpdate({ _id: reaction._id }, { $pull: [{ userId: Id }] }, { new: true })
+                if (reaction.userId.includes(Id)) { 
+                    await Reaction.findOneAndUpdate({ _id: reaction._id }, { $pull: { userId: Id } }, { new: true })
                     res.status(200).json({
                         message: `Event dis${reaction.name}`,
                         success: true,
                         reactioned: false
                     })
                 } else {
-                    await Reaction.findOneAndUpdate({ _id: reaction._id }, { $push: [{ userId: Id }] }, { new: true })
+                    await Reaction.findOneAndUpdate({ _id: reaction._id }, { $push: { userId: Id } }, { new: true })
                     res.status(200).json({
                         message: `Event ${reaction.name}`,
                         success: true,
