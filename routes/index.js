@@ -4,6 +4,7 @@ const city = require ('./city');
 const itinerary = require ('./itinerary')
 const hotel = require ('./hotel')
 const show = require ('./show')
+let comment = require('./comment');
 const reaction = require('./reaction')
 
 
@@ -12,6 +13,7 @@ router.use('/api/cities', city )
 router.use('/api/itineraries', itinerary )
 router.use('/api/hotels', hotel )
 router.use('/api/shows', show )
+router.use('/api/comments', comment);
 router.use('/api/reactions', reaction)
 
 
