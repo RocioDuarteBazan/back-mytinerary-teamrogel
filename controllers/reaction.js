@@ -83,7 +83,7 @@ const controller = {
             query = { userId: req.query.userId };
         }
         try {
-            let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' })
+            let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' }).populate({path: 'itineraryId', select: 'name photo'}).populate({path: 'showId', select: 'name photo'})
             if (reactions.length > 0) {   
                 let lengthOfReactions = {}
                 reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)         
@@ -111,7 +111,6 @@ const controller = {
     },
     destroy: async (req, res) => {
         let { id } = req.params
-
         try {
             let response = await Reaction.findOneAndUpdate({ _id: id }, { $pull: { userId: req.user.id } }, { new: true })
             res.status(200).json({
