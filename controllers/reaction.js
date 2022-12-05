@@ -28,12 +28,18 @@ const controller = {
             query = {
                 itineraryId: req.query.itineraryId
             };
-            if (req.query.name)
+        }
+        if (req.query.showId) {
             query = {
-                ...query,
-                name: req.query.name
+                showId: req.query.showId
             };
         }
+        if (req.query.name)
+        query = {
+            ...query,
+            name: req.query.name
+        };
+
         try {
             let reaction = await Reaction.findOne(query)
             if (reaction) {
@@ -70,18 +76,23 @@ const controller = {
         if (req.query.itineraryId) {
             query = { itineraryId: req.query.itineraryId };
         }
+        if (req.query.showId) {
+            query = { showId: req.query.showId };
+        }
         if (req.query.userId) {
             query = { userId: req.query.userId };
         }
         try {
             let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' })
-            if (reactions.length > 0) {            
+            if (reactions.length > 0) {   
+                let lengthOfReactions = {}
+                reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)         
                 res.status(200).json({
                     response: reactions,
                     id: req.query.itineraryId,
-                    data: reactions,
                     success: true,
                     message: `All reactions of the itineraryId ${req.query.itineraryId}`,
+                    size: lengthOfReactions,
                 })
             } else {
                 res.status(404).json({

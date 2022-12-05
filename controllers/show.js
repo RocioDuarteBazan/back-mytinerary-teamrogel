@@ -21,7 +21,6 @@ const controller = {
     },
     readShows: async (req, res) => {
         let query = {}
-
         if (req.query.hotelId) {
             query = { hotelId: req.query.hotelId };
         }

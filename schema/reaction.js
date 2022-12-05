@@ -2,10 +2,12 @@ const joi = require('joi')
 
 const schema = joi.object({
     itineraryId: joi.string()
-        .required()
         .messages({
-            "string.empty": "The itineraryId' is required",
-            'any.required': 'The itineraryId is required',
+            "string.empty": "The itineraryId' is empty",
+        }),
+    showId: joi.string()
+        .messages({
+            "string.empty": "The showId' is empty",
         }),
     name: joi.string()
         .required()
